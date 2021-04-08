@@ -43,6 +43,7 @@ var fastify_1 = __importDefault(require("fastify"));
 var typeorm_1 = require("typeorm");
 require("reflect-metadata");
 var envConfig_1 = __importDefault(require("./utils/envConfig"));
+var UserRepository_1 = __importDefault(require("./repository/UserRepository"));
 var opts = {
     schema: {
         response: {
@@ -60,22 +61,33 @@ var opts = {
 typeorm_1.createConnection()
     .then(function () {
     var server = fastify_1.default({});
+    var userRepository = new UserRepository_1.default();
     var port = envConfig_1.default.port || 7000;
     server.get('/ping', opts, function (request, reply) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            console.log('Yo yo');
             return [2 /*return*/, { pong: 'it worked!' }];
         });
     }); });
-    server.post('/user', opts, function (request, reply) { return __awaiter(void 0, void 0, void 0, function () {
+    server.post('/user', function (request, reply) { return __awaiter(void 0, void 0, void 0, function () {
+        var user;
         return __generator(this, function (_a) {
-            return [2 /*return*/, { pong: 'it worked!' }];
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, userRepository.createUser(request.body['name'], request.body['email'])];
+                case 1:
+                    user = _a.sent();
+                    return [2 /*return*/, user];
+            }
         });
     }); });
-    server.get('/ping', opts, function (request, reply) { return __awaiter(void 0, void 0, void 0, function () {
+    server.get('/user/:email', function (request, reply) { return __awaiter(void 0, void 0, void 0, function () {
+        var user;
         return __generator(this, function (_a) {
-            console.log('Yo yo');
-            return [2 /*return*/, { pong: 'it worked!' }];
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, userRepository.getUser({ where: { email: request.params['email'] } })];
+                case 1:
+                    user = _a.sent();
+                    return [2 /*return*/, user];
+            }
         });
     }); });
     // start fastify server

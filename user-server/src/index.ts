@@ -3,6 +3,7 @@ import { createConnection } from 'typeorm';
 import 'reflect-metadata';
 
 import envConfigs from './utils/envConfig';
+import UserRepository from './repository/UserRepository';
 
 const opts: RouteShorthandOptions = {
   schema: {
@@ -23,21 +24,24 @@ createConnection()
   .then(() => {
     const server: FastifyInstance = Fastify({});
 
+    const userRepository = new UserRepository();
+
     const port = envConfigs.port || 7000;
 
     server.get('/ping', opts, async (request, reply) => {
-      console.log('Yo yo');
-
       return { pong: 'it worked!' };
     });
 
-    server.post('/user', opts, async (request, reply) => {
-      return { pong: 'it worked!' };
-    });
-    server.get('/ping', opts, async (request, reply) => {
-      console.log('Yo yo');
+    server.post('/user', async (request, reply) => {
+      const user = await userRepository.createUser(request.body['name'], request.body['email']);
 
-      return { pong: 'it worked!' };
+      return user;
+    });
+
+    server.get('/user/:email', async (request, reply) => {
+      const user = await userRepository.getUser({ where: { email: request.params['email'] } });
+
+      return user;
     });
 
     // start fastify server

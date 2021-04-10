@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-user-server": "cd user-server && npm run start",
+    "start-api-gateway": "cd api-gateway && npm run start",
+    "start": "concurrently \"npm run start-user-server\" \"npm run start-api-gateway\""
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/aryankush25/microservice-node-server/issues"
   },
-  "homepage": "https://github.com/aryankush25/microservice-node-server#readme"
+  "homepage": "https://github.com/aryankush25/microservice-node-server#readme",
+  "dependencies": {
+    "concurrently": "^6.0.1"
+  }
 }

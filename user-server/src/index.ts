@@ -52,7 +52,7 @@ createConnection()
       }
 
       server.log.info(`server listening on ${address}`);
-      console.log('Server is up at -> ' + `http://localhost:${port}/`);
+      console.log('Server is up at user-> ' + `http://localhost:${port}/`);
     });
   })
   .catch((error) => {

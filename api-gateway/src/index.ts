@@ -1,52 +1,8 @@
 import express from 'express';
-import axios from 'axios';
-import { ApolloServer, gql } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
 import envConfigs from './utils/envConfig';
-
-const baseUrl = 'http://localhost:5000/';
-const userBaseUrl = baseUrl + 'user';
-
-const typeDefs = gql`
-  type User {
-    id: ID
-    name: String
-    email: String
-    hashedPassword: String
-    createdAt: String
-    updatedAt: String
-    deletedAt: String
-  }
-
-  type Query {
-    getUser(email: String): User
-  }
-
-  type Mutation {
-    createUser(name: String, email: String): User
-  }
-`;
-
-const resolvers = {
-  Query: {
-    getUser: async (parent, args) => {
-      console.log(args.email);
-
-      const response = await axios.get(userBaseUrl + '/' + args.email);
-
-      return response.data;
-    },
-  },
-  Mutation: {
-    createUser: async (parent, args) => {
-      const response = await axios.post(userBaseUrl, {
-        name: args.name,
-        email: args.email,
-      });
-
-      return response.data;
-    },
-  },
-};
+import typeDefs from './graphql/schema';
+import resolvers from './graphql/resolvers';
 
 const server = new ApolloServer({ typeDefs, resolvers });
 

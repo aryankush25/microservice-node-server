@@ -1,9 +1,9 @@
-import Fastify, { FastifyInstance, RouteShorthandOptions } from 'fastify';
+import Fastify, { FastifyInstance, RouteShorthandOptions, FastifyReply, FastifyRequest } from 'fastify';
 import { createConnection } from 'typeorm';
 import 'reflect-metadata';
 
 import envConfigs from './utils/envConfig';
-import UserRepository from './repository/UserRepository';
+import Routes, { RoutesPayload } from './routes';
 
 const opts: RouteShorthandOptions = {
   schema: {
@@ -24,24 +24,28 @@ createConnection()
   .then(() => {
     const server: FastifyInstance = Fastify({});
 
-    const userRepository = new UserRepository();
-
     const port = envConfigs.port || 7000;
 
+    // Server check
     server.get('/ping', opts, async (request, reply) => {
       return { pong: 'it worked!' };
     });
 
-    server.post('/user', async (request, reply) => {
-      const user = await userRepository.createUser(request.body['name'], request.body['email']);
+    // register routes
+    Routes.forEach((route: RoutesPayload) => {
+      server.route({
+        method: route.method,
+        url: route.route,
+        handler: async (request: FastifyRequest, reply: FastifyReply) => {
+          const controller = new route.controller();
+          const controllerFunction = controller[route.action];
 
-      return user;
-    });
+          const result = await controllerFunction(request, reply);
 
-    server.get('/user/:email', async (request, reply) => {
-      const user = await userRepository.getUser({ where: { email: request.params['email'] } });
-
-      return user;
+          return result;
+        },
+        schema: route.schema,
+      });
     });
 
     // start fastify server

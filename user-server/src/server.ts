@@ -3,13 +3,14 @@ import 'reflect-metadata';
 
 import db, { DBInterface } from './plugins/db';
 import { registerUserRoutes } from './routes/user';
+import { initLogger } from './utils/logger';
 
 export interface FastifyInstanceExtended extends FastifyInstance {
   db: DBInterface;
 }
 
 const createServer = () => {
-  const server: FastifyInstance = Fastify({ logger: { prettyPrint: true } });
+  const server: FastifyInstance = Fastify({ logger: initLogger('user-server') });
 
   server.register(db);
 

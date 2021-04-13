@@ -1,5 +1,5 @@
 import { RoutesPayload } from '../';
-import userController from '../../controller/UserController';
+import userController from '../../controller/userController';
 import * as schemas from './schema';
 
 const userRoutes: RoutesPayload[] = [

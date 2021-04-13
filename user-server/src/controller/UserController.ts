@@ -1,47 +1,41 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { ArgumentsDoesNotExistError, UserDoesNotExistError } from '../errors';
-import UserRepository from '../repository/UserRepository';
 import { isNilOrEmpty } from '../utils/helpers';
 
-export class UserController {
-  async register(request: FastifyRequest, reply: FastifyReply) {
-    try {
-      const userRepository = new UserRepository();
+const userController = () => {
+  const register = async (server: any, request: FastifyRequest, reply: FastifyReply) => {
+    const userRepository = server.db.userRepository;
 
-      const name = request.body['name'];
-      const email = request.body['email'];
+    const name = request.body['name'];
+    const email = request.body['email'];
 
-      if (isNilOrEmpty(email) || isNilOrEmpty(name)) {
-        throw ArgumentsDoesNotExistError();
-      }
+    const user = await userRepository.createUser(name, email);
 
-      const user = await userRepository.createUser(name, email);
+    return user;
+  };
 
-      return user;
-    } catch (error) {
-      return error;
+  const me = async (server: any, request: FastifyRequest, reply: FastifyReply) => {
+    const userRepository = server.db.userRepository;
+
+    const email = request.params['email'];
+
+    if (isNilOrEmpty(email)) {
+      throw ArgumentsDoesNotExistError();
     }
-  }
 
-  async me(request: FastifyRequest, reply: FastifyReply) {
-    try {
-      const userRepository = new UserRepository();
+    const user = await userRepository.getUser({ where: { email } });
 
-      const email = request.params['email'];
-
-      if (isNilOrEmpty(email)) {
-        throw ArgumentsDoesNotExistError();
-      }
-
-      const user = await userRepository.getUser({ where: { email } });
-
-      if (isNilOrEmpty(user)) {
-        throw UserDoesNotExistError();
-      }
-
-      return user;
-    } catch (error) {
-      return error;
+    if (isNilOrEmpty(user)) {
+      throw UserDoesNotExistError();
     }
-  }
-}
+
+    return user;
+  };
+
+  return {
+    register,
+    me,
+  };
+};
+
+export default userController;

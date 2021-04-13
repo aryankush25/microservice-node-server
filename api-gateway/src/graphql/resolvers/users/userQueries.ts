@@ -1,9 +1,8 @@
-import axios from 'axios';
-import { userBaseUrl } from '../../../utils/subServerUrls';
+import { me } from '../../../services/userService';
 
 const queries = {
   getUser: async (parent, args) => {
-    const response = await axios.get(userBaseUrl + '/' + args.email);
+    const response = await me(args.email);
 
     return response.data;
   },

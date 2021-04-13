@@ -5,21 +5,6 @@ import 'reflect-metadata';
 import envConfigs from './utils/envConfig';
 import Routes, { RoutesPayload } from './routes';
 
-const opts: RouteShorthandOptions = {
-  schema: {
-    response: {
-      200: {
-        type: 'object',
-        properties: {
-          pong: {
-            type: 'string',
-          },
-        },
-      },
-    },
-  },
-};
-
 createConnection()
   .then(() => {
     const server: FastifyInstance = Fastify({});
@@ -27,7 +12,7 @@ createConnection()
     const port = envConfigs.port || 7000;
 
     // Server check
-    server.get('/ping', opts, async (request, reply) => {
+    server.get('/ping', async (request, reply) => {
       return { pong: 'it worked!' };
     });
 

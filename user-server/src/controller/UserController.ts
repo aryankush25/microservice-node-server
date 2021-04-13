@@ -1,12 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { ArgumentsDoesNotExistError, UserDoesNotExistError } from '../errors';
-import UserRepository from '../repository/UserRepository';
 import { isNilOrEmpty } from '../utils/helpers';
 
-export class UserController {
-  async register(request: FastifyRequest, reply: FastifyReply) {
+const userController = () => {
+  const register = async (server: any, request: FastifyRequest, reply: FastifyReply) => {
     try {
-      const userRepository = new UserRepository();
+      const userRepository = server.db.userRepository;
 
       const name = request.body['name'];
       const email = request.body['email'];
@@ -21,11 +20,11 @@ export class UserController {
     } catch (error) {
       return error;
     }
-  }
+  };
 
-  async me(request: FastifyRequest, reply: FastifyReply) {
+  const me = async (server: any, request: FastifyRequest, reply: FastifyReply) => {
     try {
-      const userRepository = new UserRepository();
+      const userRepository = server.db.userRepository;
 
       const email = request.params['email'];
 
@@ -43,5 +42,12 @@ export class UserController {
     } catch (error) {
       return error;
     }
-  }
-}
+  };
+
+  return {
+    register,
+    me,
+  };
+};
+
+export default userController;

@@ -10,7 +10,7 @@ export interface FastifyInstanceExtended extends FastifyInstance {
 }
 
 const createServer = () => {
-  const server: FastifyInstance = Fastify({ logger: initLogger('user-server') });
+  const server: FastifyInstance = Fastify({ logger: initLogger('user_server') });
 
   server.register(db);
 

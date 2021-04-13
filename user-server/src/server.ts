@@ -1,8 +1,12 @@
-import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import Fastify, { FastifyInstance } from 'fastify';
 import 'reflect-metadata';
 
-import Routes, { RoutesPayload } from './routes';
-import db from './plugins/db';
+import db, { DBInterface } from './plugins/db';
+import { registerUserRoutes } from './routes/user';
+
+export interface FastifyInstanceExtended extends FastifyInstance {
+  db: DBInterface;
+}
 
 const createServer = () => {
   const server: FastifyInstance = Fastify({ logger: { prettyPrint: true } });
@@ -14,22 +18,9 @@ const createServer = () => {
     return { pong: 'it worked!' };
   });
 
-  // register routes
-  Routes.forEach((route: RoutesPayload) => {
-    server.route({
-      method: route.method,
-      url: route.route,
-      handler: async (request: FastifyRequest, reply: FastifyReply) => {
-        const controller = route.controller();
-        const controllerFunction = controller[route.action];
+  const extendedServer: any = server;
 
-        const result = await controllerFunction(server, request, reply);
-
-        return result;
-      },
-      schema: route.schema,
-    });
-  });
+  registerUserRoutes(extendedServer);
 
   return server;
 };

@@ -1,10 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { DBInterface } from '../plugins/db';
 import { ArgumentsDoesNotExistError, UserDoesNotExistError } from '../errors';
 import { isNilOrEmpty } from '../utils/helpers';
 
-const userController = () => {
-  const register = async (server: any, request: FastifyRequest, reply: FastifyReply) => {
-    const userRepository = server.db.userRepository;
+const userController = {
+  register: async (db: DBInterface, request: FastifyRequest, reply: FastifyReply) => {
+    const userRepository = db.userRepository;
 
     const name = request.body['name'];
     const email = request.body['email'];
@@ -12,10 +13,10 @@ const userController = () => {
     const user = await userRepository.createUser(name, email);
 
     return user;
-  };
+  },
 
-  const me = async (server: any, request: FastifyRequest, reply: FastifyReply) => {
-    const userRepository = server.db.userRepository;
+  me: async (db: DBInterface, request: FastifyRequest, reply: FastifyReply) => {
+    const userRepository = db.userRepository;
 
     const email = request.params['email'];
 
@@ -30,12 +31,7 @@ const userController = () => {
     }
 
     return user;
-  };
-
-  return {
-    register,
-    me,
-  };
+  },
 };
 
 export default userController;

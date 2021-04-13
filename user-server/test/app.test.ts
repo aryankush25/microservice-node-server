@@ -18,7 +18,7 @@ test('POST /user', async (t) => {
     url: '/user',
     payload: {
       name: 'test',
-      email: 'test10@test.com',
+      email: 'test101@test.com',
     },
   });
 

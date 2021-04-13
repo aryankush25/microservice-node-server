@@ -1,22 +1,14 @@
-import { RoutesPayload } from '../';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import userController from '../../controller/userController';
+import { FastifyInstanceExtended } from '../../server';
 import * as schemas from './schema';
 
-const userRoutes: RoutesPayload[] = [
-  {
-    method: 'POST',
-    route: '/user',
-    controller: userController,
-    action: 'register',
-    schema: schemas.registerRoute,
-  },
-  {
-    method: 'GET',
-    route: '/user/:email',
-    controller: userController,
-    action: 'me',
-    schema: schemas.meRoute,
-  },
-];
+export const registerUserRoutes = (server: FastifyInstanceExtended) => {
+  server.post('/user', { schema: schemas.registerRoute }, (request: FastifyRequest, reply: FastifyReply) => {
+    return userController.register(server.db, request, reply);
+  });
 
-export default userRoutes;
+  server.get('/user/:email', { schema: schemas.meRoute }, (request: FastifyRequest, reply: FastifyReply) => {
+    return userController.me(server.db, request, reply);
+  });
+};

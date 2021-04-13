@@ -11,6 +11,5 @@ server.listen(port, (err, address) => {
     process.exit(1);
   }
 
-  server.log.info(`server listening on ${address}`);
-  console.log('Server is up at user-> ' + `http://localhost:${port}/`);
+  server.log.info(`Server listening at -> http://localhost:${port}/`);
 });

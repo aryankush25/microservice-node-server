@@ -5,7 +5,7 @@ import Routes, { RoutesPayload } from './routes';
 import db from './plugins/db';
 
 const createServer = () => {
-  const server: FastifyInstance = Fastify({});
+  const server: FastifyInstance = Fastify({ logger: { prettyPrint: true } });
 
   server.register(db);
 

@@ -39,7 +39,6 @@
     "@types/winston-syslog": "^2.0.3",
     "dotenv": "^8.2.0",
     "nodemon": "^2.0.7",
-    "pino-pretty": "^4.7.1",
     "tap": "^15.0.2",
     "ts-node": "^9.1.1",
     "tslint": "^6.1.3",

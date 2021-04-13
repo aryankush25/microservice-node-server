@@ -15,7 +15,7 @@
     "start": "npm run migrate && npm run start:build",
     "start:dev": "npm run build:only && npm run start:build",
     "dev": "npm run migrate && nodemon",
-    "test": "NODE_ENV=test tap --ts --reporter=list"
+    "test": "NODE_ENV=test tap --ts --reporter=list --no-coverage"
   },
   "author": "",
   "license": "ISC",

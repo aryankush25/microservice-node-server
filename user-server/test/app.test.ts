@@ -1,16 +1,35 @@
 import createServer from '../src/server';
 import { test } from 'tap';
 
-test('Test /ping', async (t) => {
-  const app = createServer();
+const app = createServer();
 
+test('GET /ping', async (t) => {
   const response = await app.inject({
     method: 'GET',
     url: '/ping',
   });
 
-  // console.log('status code: ', response.statusCode)
-  // console.log('body: ', response.body)
+  t.equal(response.statusCode, 200);
+});
 
-  t.equal(response.statusCode, 200, 'returns a status code of 200');
+test('POST /user', async (t) => {
+  const response = await app.inject({
+    method: 'POST',
+    url: '/user',
+    payload: {
+      name: 'test',
+      email: 'test10@test.com',
+    },
+  });
+
+  t.equal(response.statusCode, 200);
+});
+
+test('GET /user', async (t) => {
+  const response = await app.inject({
+    method: 'GET',
+    url: '/user/test@test.com',
+  });
+
+  t.equal(response.statusCode, 200);
 });

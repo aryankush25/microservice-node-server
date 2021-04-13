@@ -1,10 +1,15 @@
 import fp from 'fastify-plugin';
 import { createConnection, getConnectionOptions } from 'typeorm';
 import UserRepository from '../repository/UserRepository';
+import {User} from '../database/entity/User'
 
 export default fp(async (server) => {
   try {
     const connectionOptions = await getConnectionOptions();
+
+    Object.assign(connectionOptions, {
+      entities: [User]
+    })
 
     console.log(`connecting to database: ${connectionOptions.type}...`);
     await createConnection(connectionOptions);

@@ -6,9 +6,9 @@ import { UserInterface } from '../types';
 @Injectable()
 export class UserServiceProvider {
   async login(email: string, password: string) {
-    const response: UserInterface = await axios.get(`${userBaseUrl}?email=${email}&password=${password}`);
+    const response = await axios.get(`${userBaseUrl}?email=${email}&password=${password}`);
 
-    return response;
+    return response.data;
   }
 
   async register(name: string, email: string, password: string) {

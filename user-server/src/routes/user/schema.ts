@@ -1,5 +1,31 @@
 import { FastifySchema } from 'fastify';
 
+const userResponseSchema = {
+  200: {
+    type: 'object',
+    properties: {
+      id: { type: 'string' },
+      name: { type: 'string' },
+      email: { type: 'string' },
+      createdAt: { type: 'string' },
+      updatedAt: { type: 'string' },
+      deletedAt: { type: 'string' },
+    },
+  },
+};
+
+export const loginRoute: FastifySchema = {
+  params: {
+    type: 'object',
+    required: ['email', 'password'],
+    properties: {
+      email: { type: 'string' },
+      password: { type: 'string' },
+    },
+  },
+  response: userResponseSchema,
+};
+
 export const registerRoute: FastifySchema = {
   body: {
     type: 'object',
@@ -10,20 +36,7 @@ export const registerRoute: FastifySchema = {
       password: { type: 'string' },
     },
   },
-  response: {
-    200: {
-      type: 'object',
-      properties: {
-        id: { type: 'string' },
-        name: { type: 'string' },
-        email: { type: 'string' },
-        hashedPassword: { type: 'string' },
-        createdAt: { type: 'string' },
-        updatedAt: { type: 'string' },
-        deletedAt: { type: 'string' },
-      },
-    },
-  },
+  response: userResponseSchema,
 };
 
 export const meRoute: FastifySchema = {
@@ -34,17 +47,5 @@ export const meRoute: FastifySchema = {
       userId: { type: 'string' },
     },
   },
-  response: {
-    200: {
-      type: 'object',
-      properties: {
-        id: { type: 'string' },
-        name: { type: 'string' },
-        email: { type: 'string' },
-        createdAt: { type: 'string' },
-        updatedAt: { type: 'string' },
-        deletedAt: { type: 'string' },
-      },
-    },
-  },
+  response: userResponseSchema,
 };

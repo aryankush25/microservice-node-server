@@ -5,6 +5,16 @@ import * as schemas from './schema';
 import * as hooks from './hooks';
 
 export const registerUserRoutes = (server: FastifyInstanceExtended) => {
+  server.get(
+    '/user/:email/:password',
+    {
+      schema: schemas.loginRoute,
+    },
+    (request: FastifyRequest, reply: FastifyReply) => {
+      return userController.me(server.db, request, reply);
+    },
+  );
+
   server.post(
     '/user',
     {

@@ -4,6 +4,17 @@ import { ArgumentsDoesNotExistError, UserDoesNotExistError } from '../errors';
 import { isNilOrEmpty } from '../utils/helpers';
 
 const userController = {
+  login: async (db: DBInterface, request: FastifyRequest, reply: FastifyReply) => {
+    const userRepository = db.userRepository;
+
+    const email = request.body['email'];
+    const password = request.body['password'];
+
+    const user = await userRepository.verifyUser(email, password);
+
+    return user;
+  },
+
   register: async (db: DBInterface, request: FastifyRequest, reply: FastifyReply) => {
     const userRepository = db.userRepository;
 

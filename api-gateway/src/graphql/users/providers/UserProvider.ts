@@ -3,7 +3,7 @@ import { Injectable, Scope, Inject } from 'graphql-modules';
 import { UserServiceProvider } from '../../../common/providers/UserServiceProvider';
 import { getAccessToken } from '../../../utils/jwt';
 import { logger } from '../../../utils/logger';
-import { UserInterface, AuthResponseInterface, SignupInterface } from '../../../common/types';
+import { UserInterface, AuthResponseInterface, SignupInterface, LoginInterface } from '../../../common/types';
 import { USER_NOT_FOUND_ERROR } from '../../../common/errors';
 
 @Injectable({
@@ -12,42 +12,30 @@ import { USER_NOT_FOUND_ERROR } from '../../../common/errors';
 export class UserProvider {
   constructor(@Inject(UserServiceProvider) private userServiceProvider: UserServiceProvider) {}
 
-  // async login(args: LoginInterface): Promise<AuthResponseInterface> {
-  //   const { email, password } = args;
-
-  //   try {
-  //     const user: User = await this.dbProvider.user.findOne({
-  //       email,
-  //     });
-
-  //     if (user) {
-  //       const isMatch = await compare(password, user.hashedPassword);
-
-  //       if (!isMatch) {
-  //         throw INCORRECT_USER_CREDENTIALS_ERROR();
-  //       }
-
-  //       const accessToken = await getAccessToken(user.id);
-
-  //       return {
-  //         user,
-  //         accessToken,
-  //       };
-  //     } else {
-  //       throw USER_NOT_FOUND_ERROR();
-  //     }
-  //   } catch (error) {
-  //     logger.error(error);
-
-  //     return error;
-  //   }
-  // }
-
-  async signup(args: SignupInterface): Promise<AuthResponseInterface> {
+  async login(args: LoginInterface): Promise<AuthResponseInterface> {
     const { email, password } = args;
 
     try {
-      const response: UserInterface = await this.userServiceProvider.register(email, password);
+      const response: UserInterface = await this.userServiceProvider.login(email, password);
+
+      const accessToken = await getAccessToken(response.id);
+
+      return {
+        user: response,
+        accessToken,
+      };
+    } catch (error) {
+      logger.error(error);
+
+      return error;
+    }
+  }
+
+  async signup(args: SignupInterface): Promise<AuthResponseInterface> {
+    const { name, email, password } = args;
+
+    try {
+      const response: UserInterface = await this.userServiceProvider.register(name, email, password);
 
       const accessToken = await getAccessToken(response.id);
 

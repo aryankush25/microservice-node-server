@@ -11,7 +11,7 @@ export const registerUserRoutes = (server: FastifyInstanceExtended) => {
       schema: schemas.loginRoute,
     },
     (request: FastifyRequest, reply: FastifyReply) => {
-      return userController.me(server.db, request, reply);
+      return userController.login(server.db, request, reply);
     },
   );
 

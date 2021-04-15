@@ -1,12 +1,11 @@
 import axios from 'axios';
 import { Injectable } from 'graphql-modules';
 import { userBaseUrl } from '../../utils/subServerUrls';
-import { UserInterface } from '../types';
 
 @Injectable()
 export class UserServiceProvider {
   async login(email: string, password: string) {
-    const response = await axios.get(`${userBaseUrl}?email=${email}&password=${password}`);
+    const response = await axios.get(`${userBaseUrl}/${email}/${password}`);
 
     return response.data;
   }

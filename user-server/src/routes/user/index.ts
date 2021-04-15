@@ -17,7 +17,7 @@ export const registerUserRoutes = (server: FastifyInstanceExtended) => {
   );
 
   server.get(
-    '/user/:email',
+    '/user/:userId',
     {
       schema: schemas.meRoute,
     },

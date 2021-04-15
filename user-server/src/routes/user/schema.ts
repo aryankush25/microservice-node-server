@@ -3,10 +3,11 @@ import { FastifySchema } from 'fastify';
 export const registerRoute: FastifySchema = {
   body: {
     type: 'object',
-    required: ['name', 'email'],
+    required: ['name', 'email', 'password'],
     properties: {
       name: { type: 'string' },
       email: { type: 'string' },
+      password: { type: 'string' },
     },
   },
   response: {
@@ -28,9 +29,9 @@ export const registerRoute: FastifySchema = {
 export const meRoute: FastifySchema = {
   params: {
     type: 'object',
-    required: ['email'],
+    required: ['userId'],
     properties: {
-      email: { type: 'string' },
+      userId: { type: 'string' },
     },
   },
   response: {
@@ -38,7 +39,7 @@ export const meRoute: FastifySchema = {
       type: 'object',
       properties: {
         name: { type: 'string' },
-        email: { type: 'string' },
+        userId: { type: 'string' },
         createdAt: { type: 'string' },
         id: { type: 'string' },
         updatedAt: { type: 'string' },

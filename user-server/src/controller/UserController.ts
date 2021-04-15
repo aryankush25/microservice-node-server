@@ -9,8 +9,9 @@ const userController = {
 
     const name = request.body['name'];
     const email = request.body['email'];
+    const password = request.body['password'];
 
-    const user = await userRepository.createUser(name, email);
+    const user = await userRepository.createUser(name, email, password);
 
     return user;
   },
@@ -18,13 +19,13 @@ const userController = {
   me: async (db: DBInterface, request: FastifyRequest, reply: FastifyReply) => {
     const userRepository = db.userRepository;
 
-    const email = request.params['email'];
+    const userId = request.params['userId'];
 
-    if (isNilOrEmpty(email)) {
+    if (isNilOrEmpty(userId)) {
       throw ArgumentsDoesNotExistError();
     }
 
-    const user = await userRepository.getUser({ where: { email } });
+    const user = await userRepository.getUser({ where: { id: userId } });
 
     if (isNilOrEmpty(user)) {
       throw UserDoesNotExistError();

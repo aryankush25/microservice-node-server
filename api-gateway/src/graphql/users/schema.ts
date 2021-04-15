@@ -5,7 +5,6 @@ const schema = gql`
     id: String!
     name: String!
     email: String!
-    isEmailVerified: Boolean!
     createdAt: String!
     updatedAt: String
     deletedAt: String

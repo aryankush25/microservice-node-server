@@ -38,10 +38,10 @@ export const meRoute: FastifySchema = {
     200: {
       type: 'object',
       properties: {
-        name: { type: 'string' },
-        userId: { type: 'string' },
-        createdAt: { type: 'string' },
         id: { type: 'string' },
+        name: { type: 'string' },
+        email: { type: 'string' },
+        createdAt: { type: 'string' },
         updatedAt: { type: 'string' },
         deletedAt: { type: 'string' },
       },

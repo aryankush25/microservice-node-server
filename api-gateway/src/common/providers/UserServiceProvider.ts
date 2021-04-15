@@ -12,18 +12,18 @@ export class UserServiceProvider {
   }
 
   async register(name: string, email: string, password: string) {
-    const response: UserInterface = await axios.post(userBaseUrl, {
+    const response = await axios.post(userBaseUrl, {
       name: name,
       email: email,
       password: password,
     });
 
-    return response;
+    return response.data;
   }
 
   async getUser(userId: string) {
-    const response: UserInterface = await axios.get(userBaseUrl + '/' + userId);
+    const response = await axios.get(userBaseUrl + '/' + userId);
 
-    return response;
+    return response.data;
   }
 }

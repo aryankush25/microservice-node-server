@@ -21,8 +21,8 @@ export class UserServiceProvider {
     return response;
   }
 
-  async getUser(user_id: string) {
-    const response: UserInterface = await axios.get(userBaseUrl + '/' + user_id);
+  async getUser(userId: string) {
+    const response: UserInterface = await axios.get(userBaseUrl + '/' + userId);
 
     return response;
   }

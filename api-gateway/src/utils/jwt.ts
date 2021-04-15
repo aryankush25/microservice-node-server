@@ -4,10 +4,10 @@ import { logger } from './logger';
 import envConfigs from './envConfig';
 import { PayloadInterface } from '../common/types';
 
-export async function getAccessToken(user_id: String): Promise<string> {
+export async function getAccessToken(userId: String): Promise<string> {
   const accessToken: string = sign(
     {
-      data: user_id,
+      data: userId,
     },
     envConfigs.jwtSecret,
     {

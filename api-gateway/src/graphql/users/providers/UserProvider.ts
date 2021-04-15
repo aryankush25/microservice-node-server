@@ -50,9 +50,9 @@ export class UserProvider {
     }
   }
 
-  async getMe(user_id: string): Promise<UserInterface> {
+  async getMe(userId: string): Promise<UserInterface> {
     try {
-      const user: UserInterface = await this.userServiceProvider.getUser(user_id);
+      const user: UserInterface = await this.userServiceProvider.getUser(userId);
 
       if (user) {
         return user;

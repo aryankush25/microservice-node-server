@@ -12,10 +12,10 @@ export const contextMiddleware = ({ req }) => {
       const payload: PayloadInterface = verifyAccessToken(authToken);
 
       if (!isNilOrEmpty(payload)) {
-        return { user_id: payload.data };
+        return { userId: payload.data };
       }
     }
   }
 
-  return { user_id: null };
+  return { userId: null };
 };

@@ -7,8 +7,13 @@ import envConfigs from './utils/envConfig';
 import typeDefs from './graphql/schema';
 import resolvers from './graphql/resolvers';
 import { logger } from './utils/logger';
+import { contextMiddleware } from './middlewares';
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: contextMiddleware,
+});
 
 const app = express();
 

@@ -26,7 +26,7 @@ export const initLogger = (appName: string) => {
     logger.add(
       new transports.Console({
         format: format.simple(),
-        handleExceptions: true,
+        // handleExceptions: true,
       }),
     );
   }

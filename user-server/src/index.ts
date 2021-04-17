@@ -11,5 +11,7 @@ server.listen(port, (err, address) => {
     process.exit(1);
   }
 
+  server.swagger();
+
   server.log.info(`Server listening at -> http://localhost:${port}/`);
 });
